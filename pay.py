@@ -2,11 +2,11 @@ from aiohttp import web
 import ssl
 from aiocryptopay import AioCryptoPay, Networks
 from aiocryptopay.models.update import Update
-
+import settings
 import tmp
 
 web_app = web.Application()
-crypto = AioCryptoPay(token='15699:AA3WCxN8t6sadGblvO9A57Yu9lXbwXeptHn', network=Networks.TEST_NET)
+crypto = AioCryptoPay(token=settings.pay_token, network=Networks.TEST_NET)
 
 
 @crypto.pay_handler()
