@@ -15,6 +15,15 @@ def add(content: list):
     save(load() + [content])
 
 
+def delete(name: str):
+    data = load()
+    for i in data:
+        if i["name"] == name:
+            data.remove(i)
+            break
+    save(data)
+
+
 def get(name: str) -> dict:
     data = load()
     for d in data:

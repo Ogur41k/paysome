@@ -35,6 +35,9 @@ async def get_link(name: str) -> str:
 async def text_handler_add1(message: types.Message):
     if message.from_user.username not in settings.admins:
         return 1
+    if message.text.replace("/add ", "", 1) in DB.get_names():
+        await message.answer("Имя занято")
+        return 1
     tmp_add[message.from_user.username] = {"name": message.text.replace("/add ", "", 1)}
     await MyStates.admin_send_price.set()
     await message.answer("Отправьте цену")
@@ -118,6 +121,15 @@ async def handler_start(message: Message):
                            message_id=content["preview"]["msg_id"],
                            reply_markup=keyboard)
 
+@dp.message_handler(commands=["del"])
+async def text_handler_add1(message: types.Message):
+    if message.from_user.username not in settings.admins:
+        return 1
+    name = message.text.replace("/del ", "", 1)
+    if name not in DB.get_names():
+        await message.answer("Такого контента нет")
+        return 1
+    DB.delete(name)
 
 async def send_on_pay(payload: str):
     chat_id = payload.split()[0]
